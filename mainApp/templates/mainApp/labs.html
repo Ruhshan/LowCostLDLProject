@@ -1,0 +1,32 @@
+{% extends 'mainApp/base.html' %}
+{% block title %}Labs{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <h3><strong>All Labs</strong></h3>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+            <th>Lab Name</th>
+            <th>Location</th>
+            <th>Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for lab in all_labs %}
+                <tr>
+                    <td><a href="{% url 'mainapp:lab-detail' lab.id %} ">{{ lab.name }}</a></td>
+                    {% if lab.thana %}
+                        <td>{{ lab.thana }}, {{ lab.get_district_display }}</td>
+                    {% else %}
+                        <td>{{ lab.get_district_display }}</td>
+                    {% endif %}
+                <td><a href="{% url 'mainapp:lab-update' lab.id %}" class="btn btn-primary">Edit</a> <a class="btn btn-danger">Delete</a></td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+{% endblock %}
