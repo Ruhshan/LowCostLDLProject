@@ -1,0 +1,28 @@
+{% extends 'mainApp/base.html' %}
+{% block title %}Users{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <h3><strong>All Users</strong></h3>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+            <th>Name</th>
+            <th>Lab</th>
+            <th>Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in all_users %}
+                <tr>
+                    <td><a href="{% url 'mainapp:user-detail' user.id %}">{{ user.username }}</a></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+{% endblock %}

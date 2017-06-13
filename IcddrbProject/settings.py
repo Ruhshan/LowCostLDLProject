@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mainApp.apps.MainappConfig',
     'widget_tweaks',
+    'six',
+    'templateaddons',
 ]
 
 MIDDLEWARE = [

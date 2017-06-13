@@ -31,18 +31,18 @@ class Lab(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     designation = models.CharField(max_length=50)
-    lab = models.ForeignKey(Lab)
+    lab = models.ForeignKey(Lab, null=True, blank=True)
     created = models.DateField(auto_now_add=True)
     last_updated = models.DateField(auto_now=True)
 
     def __str__(self):
         return self.user.username
-#
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         UserProfile.objects.create(user=instance)
-#
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-#     instance.userprofile.save()
+
+    def get_absolute_url(self):
+        return reverse('mainapp:user-detail', kwargs={'pk': self.pk})
+
+@receiver(post_save, sender=User)
+def update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+    instance.userprofile.save()
