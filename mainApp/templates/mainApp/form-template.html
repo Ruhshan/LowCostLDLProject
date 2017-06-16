@@ -9,26 +9,60 @@
 
 
     <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
+        <div class="col-sm-offset-2 col-sm-10">
         <span class="text-danger small">
              {{ field.errors }}
         </span>
-    </div>
-    <label class="control-label col-sm-2"> {{ field.label_tag }}</label>
+        </div>
+        <label class="control-label col-sm-2"> {{ field.label_tag }}</label>
 
-    <div class="col-sm-10">{{ field|add_class:'form-control' }}
-        {% if field.help_text %}
-          <div class="help-block">
-          {% replace search="&amp;#39;" replacement="'" %}
-              {% replace search="&gt;" replacement=">" %}
-                {% replace search="&lt;" replacement="<" %}
-                      {{ field.help_text }}
-                {% endreplace %}
-              {% endreplace %}
-          {% endreplace %}
-          </div>
+        <div class="col-sm-10">{{ field|add_class:'form-control' }}
+            {% if field.help_text %}
+                <div class="help-block">
+                    {% replace search="&amp;#39;" replacement="'" %}
+                        {% replace search="&gt;" replacement=">" %}
+                            {% replace search="&lt;" replacement="<" %}
+                                {{ field.help_text }}
+                            {% endreplace %}
+                        {% endreplace %}
+                    {% endreplace %}
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+{% endfor %}
+
+{% for field in extra_form %}
+
+    {% if field.html_name == 'role' %}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+        <span class="text-danger small">
+             {{ field.errors }}
+        </span>
+            </div>
+            <label class="control-label col-sm-2"> {{ field.label_tag }}</label>
+            <div class="col-sm-10">{{ field|add_class:'form-control' }}
+                <div class="help-block">
+                    Current Role : {{ role }}
+                </div>
+            </div>
+
+        </div>
+    {% else %}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+        <span class="text-danger small">
+             {{ field.errors }}
+        </span>
+            </div>
+            <label class="control-label col-sm-2"> {{ field.label_tag }}</label>
+            <div class="col-sm-10">{{ field|add_class:'form-control' }}
+                {{ field.help_text }}
+            </div>
+
+        </div>
     {% endif %}
-    </div>
 
-    </div>
 {% endfor %}

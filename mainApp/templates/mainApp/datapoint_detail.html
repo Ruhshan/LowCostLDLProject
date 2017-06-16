@@ -1,0 +1,24 @@
+{% extends 'mainApp/base.html' %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Patient Name:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ datapoint.patient_name }}
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="panel-footer">
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,5 +1,4 @@
 {% extends 'mainApp/base.html' %}
-{% block title %}{{ user }}{% endblock %}
 {% block body %}
     <div class="container-fluid">
         <div class="panel panel-default">
@@ -66,7 +65,7 @@
 
             </div>
             <div class="panel-footer">
-                <a href="" class="btn btn-primary">Edit</a>
+                <a href="{% url 'mainapp:user-update' user.id %}" class="btn btn-primary">Edit</a>
                 <a class="btn btn-danger">Delete</a>
             </div>
         </div>

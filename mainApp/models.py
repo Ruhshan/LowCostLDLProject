@@ -41,6 +41,36 @@ class UserProfile(models.Model):
     def get_absolute_url(self):
         return reverse('mainapp:user-detail', kwargs={'pk': self.pk})
 
+
+class DataPoint(models.Model):
+    sex_choices = (
+        ('M', 'MALE'),
+        ('F', 'FEMALE'),
+    )
+
+    patient_id = models.CharField(max_length=50)
+    patient_name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    gender = models.CharField(max_length=2, choices=sex_choices)
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+    added_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
+    data_category = models.CharField(max_length=10,null=True, blank=True)
+    total_cholesterol = models.IntegerField()
+    high_density_lipid = models.IntegerField()
+    low_density_lipid = models.IntegerField()
+    tri_glycerides = models.IntegerField()
+
+    def get_absolute_url(self):
+        return reverse('mainapp:data-detail', kwargs={'pk': self.pk})
+
+    def __str__(self):
+        return self.data_category[:2]+'_'+str(self.id)
+
+
+
+
+
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
     if created:

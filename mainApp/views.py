@@ -12,10 +12,6 @@ from .models import *
 from .forms import *
 # Create your views here.
 
-class HomeView(View):
-    template_name = 'mainApp/base.html'
-    def get(self, request):
-        return render(request,self.template_name)
 
 class LabsView(generic.ListView):
     template_name = 'mainApp/labs.html'
@@ -57,18 +53,48 @@ class UserAddView(View):
             user = user_form.save()
             user.refresh_from_db()
             user.userprofile.lab = user_form.cleaned_data.get('lab')
-
-            if user_form.cleaned_data.get('role') == 'admin':
+            user.userprofile.designation = user_form.cleaned_data.get('designation')
+            print user_form.cleaned_data.get('role')
+            if str(user_form.cleaned_data.get('role')) == 'admin':
                 admin_group = Group.objects.get(name='admin')
                 user.groups.add(admin_group)
 
-            if user_form.cleaned_data.get('role') == 'user':
+            if str(user_form.cleaned_data.get('role')) == 'user':
                 user_group = Group.objects.get(name='user')
                 user.groups.add(user_group)
             user.save()
             return HttpResponseRedirect(reverse('mainapp:user-detail', kwargs={'pk': user.pk}))
 
         return render(request, 'mainApp/user_form.html', {'form': user_form})
+
+
+class UserUpdateView(View):
+    def get(self, request, pk):
+        user=User.objects.get(pk=pk)
+        user_form = UserUpdateForm(instance=user)
+        profile_form = PofileUpdateForm(instance=user.userprofile)
+        role = user.groups.all()[0]
+        return render(request, 'mainApp/user_form.html',{'form':user_form,'extra_form':profile_form,'role':role})
+
+    def post(self, request, pk ):
+        user = User.objects.get(pk=pk)
+        user_form = UserUpdateForm(request.POST, instance=user)
+        profile_form = PofileUpdateForm(request.POST, instance=user.userprofile)
+        role = user.groups.all()[0]
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            newrole = profile_form.cleaned_data.get('role')
+            oldrole = str(user.groups.all()[0])
+            if newrole!=None:
+                if str(newrole) != str(oldrole):
+                    new_role = Group.objects.get(name=newrole)
+                    user.groups.clear()
+                    user.groups.add(new_role)
+                    print newrole, oldrole
+            profile_form.save()
+            return HttpResponseRedirect(reverse('mainapp:user-detail', kwargs={'pk': user.pk}))
+
+        return render(request, 'mainApp/user_form.html', {'form': user_form,'role':role})
 
 
 
