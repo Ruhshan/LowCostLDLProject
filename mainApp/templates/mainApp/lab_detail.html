@@ -1,4 +1,14 @@
 {% extends 'mainApp/base.html' %}
+{% block title %}{{ lab }}'s Information{% endblock %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'kendo/styles/kendo.common-bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'kendo/styles/kendo.bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'kendo/styles/kendo.bootstrap.mobile.min.css' %}"/>
+
+    <script src="{% static 'kendo/js/kendo.all.min.js' %}"></script>
+{% endblock %}
+
 {% block body %}
     <div class="container-fluid">
         <div class="panel panel-default">
@@ -65,7 +75,7 @@
                         <strong>Number of Datapoints:</strong>
                     </div>
                     <div class="col-sm-5">
-
+                        {{ lab.get_data_points_count }}
                     </div>
                 </div>
 
@@ -75,5 +85,45 @@
                 <a class="btn btn-danger">Delete</a>
             </div>
         </div>
+    </div>
+    <div class="container-fluid">
+
+        <table id="grid">
+
+            <thead>
+            <tr>
+                {% include 'mainApp/kendo_columns.html' %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for up in lab.userprofile_set.all %}
+                {% for data in up.user.datapoint_set.all %}
+                    <tr>
+                        {% include 'mainApp/kendo_body.html' %}
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <script>
+            $(document).ready(function () {
+                $("#grid").kendoGrid({
+                    height: 500,
+                    sortable: true,
+                    pageable:{
+                        refresh: true,
+                        pageSizes: true,
+                        buttonCount: 5
+                    },
+                    //groupable: true,
+                    filterable: true,
+                    columnMenu: true,
+                    reorderable: true,
+                    resizable: true,
+
+                });
+            });
+        </script>
     </div>
 {% endblock %}

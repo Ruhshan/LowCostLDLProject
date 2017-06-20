@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'six',
     'templateaddons',
     'django_tables2',
+    'psycopg2',
+    'django.contrib.postgres',
+    'watson'
+
 ]
 
 MIDDLEWARE = [
@@ -52,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'watson.middleware.SearchContextMiddleware'
 ]
 
 ROOT_URLCONF = 'IcddrbProject.urls'
@@ -79,14 +84,23 @@ WSGI_APPLICATION = 'IcddrbProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'lipidproject',
+        'USER': 'lipidprojectuser',
+        'PASSWORD': 'shabashferoz',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 

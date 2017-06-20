@@ -1,9 +1,20 @@
 {% extends 'mainApp/base.html' %}
+{% block title %}{{ user }}'s Information{% endblock %}
+
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'kendo/styles/kendo.common-bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'kendo/styles/kendo.bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'kendo/styles/kendo.bootstrap.mobile.min.css' %}"/>
+
+
+    <script src="{% static 'kendo/js/kendo.all.min.js' %}"></script>
+{% endblock %}
 {% block body %}
     <div class="container-fluid">
         <div class="panel panel-default">
-            <h3><strong>{{ user }}'s Information</strong></h3>
             <div class="panel-body">
+                <h3><strong>{{ user }}'s Information</strong></h3>
                 <div class="row">
                     <div class="col-sm-2">
                         <strong>User Name:</strong>
@@ -59,7 +70,7 @@
                         <strong>Number of Datapoints:</strong>
                     </div>
                     <div class="col-sm-5">
-
+                        {{ user.datapoint_set.count }}
                     </div>
                 </div>
 
@@ -69,5 +80,46 @@
                 <a class="btn btn-danger">Delete</a>
             </div>
         </div>
+    </div>
+    <div class="container-fluid">
+
+        <table id="grid">
+
+            <thead>
+            <tr>
+                {% include 'mainApp/kendo_columns.html' %}
+            </tr>
+            </thead>
+            <tbody>
+
+                {% for data in user.datapoint_set.all %}
+                    <tr>
+                        {% include 'mainApp/kendo_body.html' %}
+
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+        <script>
+            $(document).ready(function () {
+                $("#grid").kendoGrid({
+                    height: 500,
+                    sortable: true,
+                    pageable:{
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                    },
+                    //groupable: true,
+                    filterable: true,
+                    columnMenu: true,
+                    reorderable: true,
+                    resizable: true,
+
+                });
+            });
+        </script>
     </div>
 {% endblock %}

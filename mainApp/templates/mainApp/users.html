@@ -7,16 +7,30 @@
             <thead>
             <tr>
             <th>Name</th>
+                <th>Email</th>
             <th>Lab</th>
+                <th>Number of Datapoints</th>
             <th>Options</th>
             </tr>
             </thead>
             <tbody>
             {% for user in all_users %}
                 <tr>
-                    <td><a href="{% url 'mainapp:user-detail' user.id %}">{{ user.username }}</a></td>
-                    <td></td>
-                    <td></td>
+                    <td><a href="{% url 'mainapp:user-detail' user.id %}">
+                        {% if  user.first_name and user.last_name %}
+                            {{ user.first_name }} {{ user.last_name }}
+                        {% else %}
+                            {{ user.username }}
+                        {% endif %}
+                    </a></td>
+                <td>{{ user.email }}</td>
+
+                    <td><a href="{% url 'mainapp:lab-detail' user.userprofile.lab.id %}">{{ user.userprofile.lab }}</a></td>
+                <td>{{ user.datapoint_set.count }}</td>
+                    <td>
+                        <a href="{% url 'mainapp:user-update' user.id %}" class="btn btn-primary">Edit</a>
+                        <a class="btn btn-danger">Delete</a>
+                    </td>
                 </tr>
 
             {% endfor %}

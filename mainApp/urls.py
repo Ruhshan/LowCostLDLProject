@@ -20,4 +20,8 @@ urlpatterns = [
     url(r'data/add/qc/$', data_views.DataAddQcView.as_view(), name="data-add-qc"),
     url(r'data/(?P<pk>[0-9]+)/$', data_views.DataDetails.as_view(), name="data-detail"),
 
+    ## ajax urls
+    url(r'^get_labs_ajax/', data_views.get_labs_ajax, name="get_labs_ajax"),
+    url(r'^get_users_ajax/', data_views.get_users_ajax, name="get_users_ajax"),
+
 ]

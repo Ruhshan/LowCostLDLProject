@@ -28,6 +28,12 @@ class Lab(models.Model):
         else:
             return self.name
 
+    def get_data_points_count(self):
+        ct=0
+        for up in self.userprofile_set.all():
+            ct+=up.user.datapoint_set.count()
+        return ct
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     designation = models.CharField(max_length=50)
@@ -47,6 +53,10 @@ class DataPoint(models.Model):
         ('M', 'MALE'),
         ('F', 'FEMALE'),
     )
+    category_choices = (
+        ('regular', 'REGULAR'),
+        ('qc', 'QC'),
+    )
 
     patient_id = models.CharField(max_length=50)
     patient_name = models.CharField(max_length=100)
@@ -55,17 +65,19 @@ class DataPoint(models.Model):
     date = models.DateField(auto_now_add=True)
     time = models.TimeField(auto_now_add=True)
     added_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
-    data_category = models.CharField(max_length=10,null=True, blank=True)
+    data_category = models.CharField(max_length=10,choices=category_choices,null=True, blank=True, )
     total_cholesterol = models.IntegerField()
     high_density_lipid = models.IntegerField()
     low_density_lipid = models.IntegerField()
     tri_glycerides = models.IntegerField()
+    lab = models.ForeignKey(Lab, on_delete=models.CASCADE, null=True, blank=True)
+    district = models.CharField(max_length=50,null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse('mainapp:data-detail', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return self.data_category[:2]+'_'+str(self.id)
+        return str(self.data_category)[:2]+'_'+str(self.id)
 
 
 
