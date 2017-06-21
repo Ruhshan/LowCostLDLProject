@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'psycopg2',
     'django.contrib.postgres',
     'watson',
-    'python-decouple'
+
 
 ]
 
