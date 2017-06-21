@@ -1,41 +1,81 @@
 {% extends 'mainApp/base.html' %}
 {% block body %}
-    <div class="container-fluid">
+    <div class="container-fluid display-screen">
         <h3><strong>All Users</strong></h3>
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-            <th>Name</th>
-                <th>Email</th>
-            <th>Lab</th>
-                <th>Number of Datapoints</th>
-            <th>Options</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for user in all_users %}
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
                 <tr>
-                    <td><a href="{% url 'mainapp:user-detail' user.id %}">
-                        {% if  user.first_name and user.last_name %}
-                            {{ user.first_name }} {{ user.last_name }}
-                        {% else %}
-                            {{ user.username }}
-                        {% endif %}
-                    </a></td>
-                <td>{{ user.email }}</td>
-
-                    <td><a href="{% url 'mainapp:lab-detail' user.userprofile.lab.id %}">{{ user.userprofile.lab }}</a></td>
-                <td>{{ user.datapoint_set.count }}</td>
-                    <td>
-                        <a href="{% url 'mainapp:user-update' user.id %}" class="btn btn-primary">Edit</a>
-                        <a class="btn btn-danger">Delete</a>
-                    </td>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Lab</th>
+                    <th>Number of Datapoints</th>
+                    <th>Options</th>
                 </tr>
+                </thead>
+                <tbody>
+                {% for user in all_users %}
+                    <tr>
+                        <td><a href="{% url 'mainapp:user-detail' user.id %}">
+                            {% if  user.first_name and user.last_name %}
+                                {{ user.first_name }} {{ user.last_name }}
+                            {% else %}
+                                {{ user.username }}
+                            {% endif %}
+                        </a></td>
+                        <td>{{ user.email }}</td>
 
-            {% endfor %}
-            </tbody>
-        </table>
+                        <td>
+                            <a href="{% url 'mainapp:lab-detail' user.userprofile.lab.id %}">{{ user.userprofile.lab }}</a>
+                        </td>
+                        <td>{{ user.datapoint_set.count }}</td>
+                        <td>
+                            <a href="{% url 'mainapp:user-update' user.id %}" class="btn btn-primary">Edit</a>
+                            <a class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
+    <div class="display-print">
+    <h3><strong>All Users</strong></h3>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Lab</th>
+                    <th>Number of Datapoints</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in all_users %}
+                    <tr>
+                        <td>
+                            {% if  user.first_name and user.last_name %}
+                                {{ user.first_name }} {{ user.last_name }}
+                            {% else %}
+                                {{ user.username }}
+                            {% endif %}
+                        </td>
+                        <td>{{ user.email }}</td>
+
+                        <td>
+                            {{ user.userprofile.lab }}
+                        </td>
+                        <td>{{ user.datapoint_set.count }}</td>
+
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
     </div>
 {% endblock %}

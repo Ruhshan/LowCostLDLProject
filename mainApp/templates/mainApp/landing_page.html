@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{% static 'kendo/styles/kendo.common-bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'kendo/styles/kendo.bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'kendo/styles/kendo.bootstrap.mobile.min.css' %}"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.4.0/jszip.min.js"></script>
 
     <script src="{% static 'kendo/js/kendo.all.min.js' %}"></script>
 
@@ -12,66 +13,177 @@
 
 {% block body %}
 
-    <div class="container-fluid">
-    {% if datapoints %}
-        {% if request.user.groups.all.0|stringformat:'s' == 'admin' %}
-            <table id="grid">
-                <thead>
-                <tr>
-                    {% include 'mainApp/kendo_columns.html' %}
-                </tr>
-                </thead>
-                <tbody>
-                {% for data in datapoints %}
+    <div class="container-fluid display-screen">
+        {% if datapoints %}
+            {% if request.user.groups.all.0|stringformat:'s' == 'admin' %}
+                <table id="grid">
+                    <thead>
                     <tr>
-                        {% include 'mainApp/kendo_body.html' %}
+                        {% include 'mainApp/kendo_columns.html' %}
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            <script>
-                $(document).ready(function () {
-                    $("#grid").kendoGrid({
-                        height: 500,
-                        sortable: true,
-                        pageable: {
-                            refresh: true,
-                            pageSizes: true,
-                            buttonCount: 5
-                        },
-                        //groupable: true,
-                        filterable: true,
-                        columnMenu: true,
-                        reorderable: true,
-                        resizable: true,
+                    </thead>
+                    <tbody>
+                    {% for data in datapoints %}
+                        <tr>
+                            {% include 'mainApp/kendo_body.html' %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <script type="x/kendo-template" id="page-template">
+                    <div class="page-template">
+                        <div class="header">
+                            <div style="float: right">Page #: pageNum # of #: totalPages #</div>
+                            Multi-page grid with automatic page breaking
+                        </div>
+                        <!--div class="watermark">KENDO UI</div-->
+                        <div class="footer">
+                            Page #: pageNum # of #: totalPages #
+                        </div>
+                    </div>
+                </script>
+                <style>
+                    .page-template {
+                        font-family: "DejaVu Sans", "Arial", sans-serif;
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        top: 0;
+                        left: 0;
+                    }
 
+                    .page-template .header {
+                        position: absolute;
+                        top: 30px;
+                        left: 30px;
+                        right: 30px;
+                        border-bottom: 1px solid #888;
+                        color: #888;
+                    }
+
+                    .page-template .footer {
+                        position: absolute;
+                        bottom: 30px;
+                        left: 30px;
+                        right: 30px;
+                        border-top: 1px solid #888;
+                        text-align: center;
+                        color: #888;
+                    }
+
+                    .page-template .watermark {
+                        font-weight: bold;
+                        font-size: 400%;
+                        text-align: center;
+                        margin-top: 30%;
+                        color: #aaaaaa;
+                        opacity: 0.1;
+                        transform: rotate(-35deg) scale(1.7, 1.5);
+                    }
+                </style>
+                <script>
+
+                    $(document).ready(function () {
+                        $("#grid").kendoGrid({
+
+                            toolbar: ["excel", "pdf"],
+                            excel: {
+                                fileName: "Export.xlsx",
+                                filterable: false,
+
+
+                            },
+
+                            pdf: {
+                                allPages: true,
+                                avoidLinks: true,
+                                paperSize: "A4",
+                                margin: {top: "2cm", left: "1cm", right: "1cm", bottom: "1cm"},
+                                landscape: true,
+                                repeatHeaders: true,
+                                template: $("#page-template").html(),
+                                scale: 0.8
+                            },
+                            height: 500,
+                            sortable: true,
+                            pageable: {
+                                refresh: true,
+                                pageSizes: true,
+                                buttonCount: 5
+                            },
+                            //groupable: true,
+                            filterable: true,
+                            columnMenu: true,
+                            reorderable: true,
+                            resizable: true,
+                            excelExport: function (e) {
+                                var rows = e.workbook.sheets[0].rows;
+
+                                for (var ri = 0; ri < rows.length; ri++) {
+                                    var row = rows[ri];
+
+                                    for (var ci = 0; ci < row.cells.length; ci++) {
+                                        var cell = row.cells[ci];
+                                        if (cell.value) {
+                                            // Use jQuery.fn.text to remove the HTML and get only the text
+                                            if ($(cell.value).text()) {
+                                                cell.value = $(cell.value).text();
+                                            }
+                                            else {
+                                                cell.value = cell.value;
+                                            }
+
+                                            // Set the alignment
+                                            cell.hAlign = "right";
+                                        }
+                                    }
+                                }
+                            },
+
+                        });
                     });
-                });
-            </script>
+                </script>
+            {% endif %}
         {% endif %}
-    {% endif %}
-    {% if request.user.groups.all.0|stringformat:'s' == 'user' %}
-        <div class="uk-child-width-1-2@s" uk-grid>
-            <div>
-                <div class="uk-card uk-card-default  uk-card-body">
+        {% if request.user.groups.all.0|stringformat:'s' == 'user' %}
+            <div class="uk-child-width-1-2@s" uk-grid>
+                <div>
+                    <div class="uk-card uk-card-default  uk-card-body">
 
-                    <p>If you want to add regular data in the database, click the link bellow</p>
-                    <div class="uk-card-footer">
-                        <a href="{% url 'mainapp:data-add-re' %}" class="uk-button uk-button-text">Go</a>
+                        <p>If you want to add regular data in the database, click the link bellow</p>
+                        <div class="uk-card-footer">
+                            <a href="{% url 'mainapp:data-add-re' %}" class="uk-button uk-button-text">Go</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default  uk-card-body">
+
+                        <p>If you want to add QC data in the database, click the link bellow</p>
+                        <div class="uk-card-footer">
+                            <a href="{% url 'mainapp:data-add-qc' %}" class="uk-button uk-button-text">Go</a>
+                        </div>
                     </div>
                 </div>
-
             </div>
-            <div>
-                <div class="uk-card uk-card-default  uk-card-body">
+        {% endif %}
+    </div>
+    <div class="display-print">
+    <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        {% include 'mainApp/kendo_columns.html' %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for data in datapoints %}
+                        <tr>
+                            {% include 'mainApp/kendo_body_print.html' %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
 
-                    <p>If you want to add QC data in the database, click the link bellow</p>
-                    <div class="uk-card-footer">
-                        <a href="{% url 'mainapp:data-add-qc' %}" class="uk-button uk-button-text">Go</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endif %}
     </div>
 {% endblock %}

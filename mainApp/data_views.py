@@ -83,19 +83,33 @@ class DataAddQcView(LoginRequired, DataAdd, generic.CreateView):
 class DataDetails(LoginRequired, generic.DetailView):
     model = DataPoint
     template_name = 'mainApp/datapoint_detail.html'
+    search_form = SearchForm
+
+    def get_context_data(self, **kwargs):
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        district_list = list(dist_choices)
+        labs = Lab.objects.all().values('name')
+        users = User.objects.all()
+
+        if 'search_form' not in context:
+            context['search_form'] = self.search_form()
+            context['district_list'] = district_list
+            context['labs'] = labs
+            context['users'] = users
+        return context
 
 class HomeView(LoginRequired,View):
     template_name = 'mainApp/landing_page.html'
     def get(self, request):
-        datapoints = DataPoint.objects.all()
+        datapoints = DataPoint.objects.all()[:10][::-1]
         search_form = SearchForm()
         district_list = list(dist_choices)
         labs = Lab.objects.all().values('name')
         users = User.objects.all()
         return render(request,self.template_name,{'search_form':search_form,'district_list':district_list,
-                                                  'labs':labs,'users':users})
+                                                  'labs':labs,'users':users,'datapoints':datapoints})
     def post(self, request):
-        datapoints = DataPoint.objects.all()
+        datapoints = DataPoint.objects.all()[:10][::-1]
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
             any_term = search_form.cleaned_data.get('any_term')
@@ -122,15 +136,11 @@ class HomeView(LoginRequired,View):
                 patient_age = search_form.cleaned_data.get('patient_age')
                 if patient_age:
                     datapoints = datapoints.filter(age=patient_age)
-                date_start = parser.parse(search_form.cleaned_data.get('date_start'))
-                date_end = parser.parse(search_form.cleaned_data.get('date_end'))
-                if date_start:
+
+                if search_form.cleaned_data.get('date_start'):
+                    date_start = parser.parse(search_form.cleaned_data.get('date_start'))
+                    date_end = parser.parse(search_form.cleaned_data.get('date_end'))
                     datapoints = datapoints.filter(date__range=(date_start, date_end))
-
-
-
-
-
 
         district_list = list(dist_choices)
         labs = Lab.objects.all().values('name')

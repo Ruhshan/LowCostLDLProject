@@ -5,20 +5,154 @@
             <div class="panel-body">
 
                 <div class="row">
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
+                        <strong>Entry ID:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ datapoint.data_category }}_{{ datapoint.id }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
                         <strong>Patient Name:</strong>
                     </div>
                     <div class="col-sm-5">
                         {{ datapoint.patient_name }}
                     </div>
                 </div>
-
-
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>Patient ID:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ datapoint.patient_id }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>Gender:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ datapoint.get_gender_display }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>Age:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ datapoint.age }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>Date:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ datapoint.date }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>Time:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ datapoint.time }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>Added By:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ datapoint.added_by.first_name }} {{ datapoint.added_by.last_name }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>Category:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ datapoint.get_data_category_display }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>Lab:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ datapoint.lab }} {{ datapoint.lab.thana }} {{ datapoint.lab.get_district_display }}
+                    </div>
+                </div>
 
             </div>
-            <div class="panel-footer">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Test</th>
+                    <th>Value</th>
+                    <th>Unit</th>
+                    <th>Reference Value</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Total Cholesterol</td>
+                    <td>{{ datapoint.total_cholesterol }}</td>
+                    <td>mg/dl</td>
+                    <td>
+                        Ideal: < 200
+                        <br>
+                        Borderline High: 200-239
+                        <br>
+                        High:  > 240
+                    </td>
+                </tr>
+                <tr>
+                    <td>Triglycerides</td>
+                    <td>{{ datapoint.tri_glycerides }}</td>
+                    <td>mg/dl</td>
+                    <td>
+                        Desiarable: <150
+                        <br>
+                        Borderline High: 150 - 200
+                        <br>
+                        High: 200-500
+                        <br>
+                        Very High: >500
 
-            </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>High Density Lipid</td>
+                    <td>{{ datapoint.high_density_lipid }}</td>
+                    <td>mg/dl</td>
+                    <td>
+                        Major Risk: < 40
+                        <br>
+                        Less Risk: > 60
+                    </td>
+                </tr>
+                <tr>
+                    <td>Low Density Lipid</td>
+                    <td>{{ datapoint.low_density_lipid }}</td>
+                    <td>mg/dl</td>
+                    <td>
+                        Desirable: < 100
+                        <br>
+                        Near Desirable : 100-130
+                        <br>
+                        Borderline High: 130-160
+                        <br>
+                        High:160-190
+                        <br>
+                        Very High: >190
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
         </div>
     </div>
 {% endblock %}
