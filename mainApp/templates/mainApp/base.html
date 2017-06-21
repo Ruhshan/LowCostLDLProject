@@ -3,10 +3,7 @@
 {% with request.resolver_match.url_name as url_name %}
     <head>
         <meta charset="UTF-8">
-
-
         <title>
-
             {% if url_name == 'home' %}
                 Lipid Project
             {% elif url_name == 'labs' %}
@@ -14,7 +11,6 @@
             {% elif url_name == 'users' %}
                 All Users
             {% endif %}
-
             {% block title %}{% endblock title %}
         </title>
 
@@ -49,6 +45,12 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
         <link rel="stylesheet" href="{% static 'printer/print_style.css' %}">
 
+        <!--html2pdf-->
+        <script src="{% static 'html2pdf/vendor/jspdf.min.js' %}"></script>
+        <script src="{% static 'html2pdf/vendor/html2canvas.min.js' %}"></script>
+        <script src="{% static 'html2pdf/src/html2pdf.js' %}"></script>
+
+
 
         {% block extra_head %}{% endblock %}
 
@@ -64,7 +66,7 @@
     </head>
     <body>
     <nav class="navbar
-    {% if request.user.groups.all.0|stringformat:"s" == "user" %} navbar-default{% else %} navbar-inverse{% endif %} navbar-static-top">
+    {% if request.user.groups.all.0|stringformat:"s" == "user" %} navbar-inverse{% else %} navbar-inverse{% endif %} navbar-static-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">

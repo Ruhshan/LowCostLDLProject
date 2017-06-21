@@ -119,6 +119,7 @@ class HomeView(LoginRequired,View):
                 for q in ws:
                     datapoints.append(DataPoint.objects.get(id=str(q)[3:]))
             else:
+                datapoints = DataPoint.objects.all()
                 district = search_form.cleaned_data.get('district')
                 if district:
                     datapoints = DataPoint.objects.filter(district=district)
@@ -147,8 +148,6 @@ class HomeView(LoginRequired,View):
         users = User.objects.all()
         return render(request, self.template_name, {'datapoints':datapoints,'search_form':search_form,'district_list':district_list,
                                                   'labs':labs,'users':users})
-
-
 
 
 def get_labs_ajax(request):
@@ -181,6 +180,7 @@ def get_users_ajax(request):
     if lab:
         labs = labs.filter(name=lab)
     resp=""
+
     for l in labs:
         for u in l.userprofile_set.all():
             resp+='<option value={}>'.format(u)
