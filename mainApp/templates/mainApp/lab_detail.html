@@ -180,13 +180,13 @@
             </tr>
             </thead>
             <tbody>
-            {% for up in lab.userprofile_set.all %}
-                {% for data in up.user.datapoint_set.all %}
+
+                {% for data in lab.datapoint_set.all %}
                     <tr>
                         {% include 'mainApp/kendo_body_print.html' %}
                     </tr>
                 {% endfor %}
-            {% endfor %}
+
             </tbody>
         </table>
 

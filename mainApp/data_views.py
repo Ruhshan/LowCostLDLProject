@@ -133,7 +133,7 @@ class HomeView(LoginRequired,View):
                     datapoints = datapoints.filter(added_by=u)
                 patient_name = search_form.cleaned_data.get('patient_name')
                 if patient_name:
-                    datapoints = datapoints.filter(patient_name__search=patient_name)
+                    datapoints = datapoints.filter(patient_name__search=str(patient_name))
                 patient_age = search_form.cleaned_data.get('patient_age')
                 if patient_age:
                     datapoints = datapoints.filter(age=patient_age)
