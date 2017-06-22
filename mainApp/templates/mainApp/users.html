@@ -15,8 +15,11 @@
                 </thead>
                 <tbody>
                 {% for user in all_users %}
+                {% if user.username != 'ruhshan' %}
+
                     <tr>
-                        <td><a href="{% url 'mainapp:user-detail' user.id %}">
+                        <td>
+                            <a href="{% url 'mainapp:user-detail' user.id %}">
                             {% if  user.first_name and user.last_name %}
                                 {{ user.first_name }} {{ user.last_name }}
                             {% else %}
@@ -34,7 +37,7 @@
                             <a class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
-
+                {% endif %}
                 {% endfor %}
                 </tbody>
             </table>
@@ -55,8 +58,11 @@
                 </thead>
                 <tbody>
                 {% for user in all_users %}
+
                     <tr>
+                    {% if user.username != 'ruhshan' %}
                         <td>
+
                             {% if  user.first_name and user.last_name %}
                                 {{ user.first_name }} {{ user.last_name }}
                             {% else %}
@@ -72,6 +78,7 @@
 
                     </tr>
 
+                    {% endif %}
                 {% endfor %}
                 </tbody>
             </table>
