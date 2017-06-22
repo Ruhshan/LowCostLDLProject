@@ -17,8 +17,20 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
+
 <div class="container col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4">
     <br/>
+
+    {% if request.get_full_path == '/login/?next=/data/add/qc/' or request.get_full_path == '/login/?next=/data/add/regular/' or request.get_full_path == '/login/?next=/' %}
+    {% else %}
+        <div class="alert alert-danger">
+            <strong>Attention!</strong> Only admin has access to this page.
+        </div>
+    {% endif %}
+
+
+
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <h1>Login</h1>
