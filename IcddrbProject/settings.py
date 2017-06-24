@@ -110,11 +110,11 @@ except:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'lipidproject',
-            'USER': 'lipidprojectuser',
-            'PASSWORD': 'shabashferoz',
-            'HOST': 'localhost',
-            'PORT': '',
+            'NAME': 'ddfgo2v7kjdfjj',
+            'USER': 'cgczbmuktxxfdd',
+            'PASSWORD': '09dc20333b1901e8c3898c157b2826968a033bd533f1a6f7a609a0a33f4ac540',
+            'HOST': 'ec2-184-72-216-69.compute-1.amazonaws.com',
+            'PORT': '5432',
         }
     }
 

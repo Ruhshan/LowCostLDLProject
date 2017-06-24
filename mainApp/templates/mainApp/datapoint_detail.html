@@ -65,7 +65,11 @@
                         <strong>Added By:</strong>
                     </div>
                     <div class="col-sm-5">
-                        {{ datapoint.added_by.first_name }} {{ datapoint.added_by.last_name }}
+                        {% if datapoint.added_by.first_name %}
+                          {{ datapoint.added_by.first_name }} {{ datapoint.added_by.last_name }}
+                        {% else %}
+                          {{ datapoint.added_by.username }}
+                        {% endif %} 
                     </div>
                 </div>
                 <div class="row">
