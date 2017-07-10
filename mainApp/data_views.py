@@ -54,15 +54,17 @@ class DataAddReView(LoginRequired, DataAdd, generic.CreateView):
             context['users'] = users
         return context
 
-class DataAddQcView(LoginRequired, DataAdd, generic.CreateView):
+class QcAddView(LoginRequired, generic.CreateView):
+    model = QCData
+    fields= ['test_name','qc_name','lot','level','value','acceptable_range','remarks']
     def form_valid(self, form):
-        data = form.save()
-        data.added_by = self.request.user
-        data.data_category = 'qc'
-        data.lab = self.request.user.userprofile.lab
-        data.district = self.request.user.userprofile.lab.get_district_display()
-        data.save()
-        return HttpResponseRedirect(reverse('mainapp:data-detail', kwargs={'pk': data.pk}))
+            data = form.save()
+            data.added_by = self.request.user
+            data.lab = self.request.user.userprofile.lab
+            data.district = self.request.user.userprofile.lab.get_district_display()
+            data.save()
+            #return HttpResponseRedirect(reverse('mainapp:data-detail', kwargs={'pk': data.pk}))
+            return HttpResponse("OK")
 
     search_form = SearchForm
 
@@ -78,6 +80,32 @@ class DataAddQcView(LoginRequired, DataAdd, generic.CreateView):
             context['labs'] = labs
             context['users'] = users
         return context
+
+
+# class DataAddQcView(LoginRequired, DataAdd, generic.CreateView):
+#     def form_valid(self, form):
+#         data = form.save()
+#         data.added_by = self.request.user
+#         data.data_category = 'qc'
+#         data.lab = self.request.user.userprofile.lab
+#         data.district = self.request.user.userprofile.lab.get_district_display()
+#         data.save()
+#         return HttpResponseRedirect(reverse('mainapp:data-detail', kwargs={'pk': data.pk}))
+#
+#     search_form = SearchForm
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(self.__class__, self).get_context_data(**kwargs)
+#         district_list = list(dist_choices)
+#         labs = Lab.objects.all().values('name')
+#         users = User.objects.all()
+#
+#         if 'search_form' not in context:
+#             context['search_form'] = self.search_form()
+#             context['district_list'] = district_list
+#             context['labs'] = labs
+#             context['users'] = users
+#         return context
 
 
 class DataDetails(LoginRequired, generic.DetailView):

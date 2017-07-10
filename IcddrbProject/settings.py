@@ -106,17 +106,27 @@ try:
         )
     }
 except:
-    # local pg
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'ddfgo2v7kjdfjj',
-            'USER': 'cgczbmuktxxfdd',
-            'PASSWORD': '09dc20333b1901e8c3898c157b2826968a033bd533f1a6f7a609a0a33f4ac540',
-            'HOST': 'ec2-184-72-216-69.compute-1.amazonaws.com',
-            'PORT': '5432',
+            'NAME': 'lipidproject',
+            'USER': 'lipidprojectuser',
+            'PASSWORD': 'shabashferoz',
+            'HOST': 'localhost',
+            'PORT': '',
         }
     }
+    # heroku pg
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #         'NAME': 'ddfgo2v7kjdfjj',
+    #         'USER': 'cgczbmuktxxfdd',
+    #         'PASSWORD': '09dc20333b1901e8c3898c157b2826968a033bd533f1a6f7a609a0a33f4ac540',
+    #         'HOST': 'ec2-184-72-216-69.compute-1.amazonaws.com',
+    #         'PORT': '5432',
+    #     }
+    # }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -135,7 +145,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

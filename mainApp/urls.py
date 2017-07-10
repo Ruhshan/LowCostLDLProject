@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^users/(?P<pk>[0-9]+)/update/$',views.UserUpdateView.as_view(),name="user-update"),
 
     url(r'data/add/regular/$', data_views.DataAddReView.as_view(), name="data-add-re"),
-    url(r'data/add/qc/$', data_views.DataAddQcView.as_view(), name="data-add-qc"),
+    url(r'data/add/qc/$', data_views.QcAddView.as_view(), name="data-add-qc"),
     url(r'data/(?P<pk>[0-9]+)/$', data_views.DataDetails.as_view(), name="data-detail"),
 
     ## ajax urls

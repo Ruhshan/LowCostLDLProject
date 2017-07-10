@@ -80,6 +80,27 @@ class DataPoint(models.Model):
         return str(self.data_category)[:2]+'_'+str(self.id)
 
 
+class QCData(models.Model):
+    test_choices=(('TCHO','TCHO'),
+                    ('HDL-C','HDL-C'))
+    level_choices=(('1','1'),
+                    ('2','2'),
+                    ('3','3'))
+    remark_choices=(('Pass','Pass'),('Fail','Fail'))
+    test_name = models.CharField(max_length=50, choices=test_choices)
+    qc_name = models.CharField(max_length=50)
+    lot = models.CharField(max_length=50)
+    level = models.CharField(max_length=10, choices=level_choices)
+    value = models.IntegerField()
+    acceptable_range= models.CharField(max_length=100)
+    remarks = models.CharField(max_length=50, choices = remark_choices)
+    added_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True, blank=True)
+    lab = models.ForeignKey(Lab, on_delete=models.CASCADE, null=True, blank=True)
+    district = models.CharField(max_length=50,null=True, blank=True)
+
+    def __str__(self):
+        return 'qc_'+str(self.test)+str(self.id)
+
 
 
 
