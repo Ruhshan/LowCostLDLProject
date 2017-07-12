@@ -1,0 +1,85 @@
+{% extends 'mainApp/base.html' %}
+{% load static %}
+{% load render_table from django_tables2 %}
+{% block extra_head %}
+    {% include 'mainApp/kendo_scripts.html' %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid display-screen">
+        {% if datapoints %}
+            {% if request.user.groups.all.0|stringformat:'s' == 'admin' %}
+                <table id="grid">
+
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        {% include 'mainApp/kendo_columns.html' %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for data in datapoints %}
+                        <tr>
+                            {% include 'mainApp/kendo_body.html' %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% include 'mainApp/kendo_components.html' %}
+            {% endif %}
+        {% endif %}
+        {% if request.user.groups.all.0|stringformat:'s' == 'user' %}
+            <div class="uk-child-width-1-2@s" uk-grid>
+                <div>
+                    <div class="uk-tile uk-tile-primary">
+                        <p class="uk-h4">Regular Data Input</p>
+                        <a href="{% url 'mainapp:data-add-re' %}" class="uk-button uk-button-text">Go</a>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-tile uk-tile-secondary">
+                        <p class="uk-h4">QC Data Input</p>
+                        <a href="{% url 'mainapp:data-add-qc' %}" class="uk-button uk-button-text">Go</a>
+                    </div>
+                </div>
+                <!--div>
+                    <div class="uk-card uk-card-hover uk-card-secondary  uk-card-body">
+
+                        <p><strong>If you want to add regular data in the database, click the link bellow</strong></p>
+                        <div class="uk-card-footer">
+                            <a href="{% url 'mainapp:data-add-re' %}" class="uk-button uk-button-text">Go</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <div class="uk-card uk-card-hover uk-card-primary  uk-card-body">
+
+                        <p><strong>If you want to add QC data in the database, click the link bellow</strong></p>
+                        <div class="uk-card-footer">
+                            <a href="{% url 'mainapp:data-add-qc' %}" class="uk-button uk-button-text">Go</a>
+                        </div>
+                    </div>
+                </div-->
+            </div>
+        {% endif %}
+    </div>
+    <div class="display-print">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                {% include 'mainApp/kendo_columns.html' %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for data in datapoints %}
+                <tr>
+                    {% include 'mainApp/kendo_body_print.html' %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}

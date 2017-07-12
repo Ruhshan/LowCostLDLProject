@@ -1,0 +1,142 @@
+{% load widget_tweaks %}
+
+<form class="navbar-form navbar-left" role="search" method="post" action="/">
+    {% csrf_token %}
+    <div class="input-group" id="adv-search">
+        <!--input type="text" required class="form-control" placeholder="Search " name="any"/-->
+        {{ search_form.any_term|add_class:'form-control'|attr:"placeholder:search" }}
+        <div class="input-group-btn">
+            <div class="btn-group" role="group">
+                <div class="dropdown dropdown-lg">
+                    <button type="button" class="btn btn-default" data-toggle="dropdown"
+                            aria-expanded="false"><span class="caret"></span></button>
+                    <div class="dropdown-menu dropdown-menu-left" role="menu">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                {{ search_form.district.label_tag }}
+                                <br>
+                                <!--input type="text" class="form-control" id="patient_name" name="patient_name"-->
+                                {{ search_form.district|add_class:'form-control'|attr:'list:dist_list'}}
+                                <datalist id='dist_list'>
+                                    {%  for d in district_list %}
+                                        <option value={{ d.1 }}>
+                                    {% endfor %}
+
+                                </datalist>
+                            </div>
+                        <br>
+                        <div class="form-group">
+                            {{ search_form.lab.label_tag }}
+                            {{ search_form.lab|add_class:'form-control'|attr:'list:lab_list' }}
+                            <datalist id="lab_list">
+                                {% for lab in labs %}
+                                    <option value="{{ lab.name }}">
+                                {% endfor %}
+
+                            </datalist>
+
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            {{ search_form.user.label_tag }}
+                            {{ search_form.user|add_class:'form-control'|attr:'list:user_list' }}
+                            <datalist id="user_list">
+                                {% for user in users %}
+                                    <option value="{{ user.username }}">
+                                {% endfor %}
+                            </datalist>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            {{ search_form.patient_name.label_tag }}
+                            {{ search_form.patient_name|add_class:'form-control' }}
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            {{ search_form.patient_age.label_tag }}
+                            {{ search_form.patient_age|add_class:'form-control' }}
+
+                        </div>
+
+
+                            <br>
+                            <div class="form-group">
+                                <label for="">Date Range:</label><br>
+                                <div class="input-daterange input-group" id="datepicker">
+
+                                    {{ search_form.date_start|add_class:"input-sm form-control" }}
+
+                                    <span class="input-group-addon">:</span>
+                                    {{ search_form.date_end|add_class:"input-sm form-control" }}
+
+
+                            </div>
+                            </div>
+
+                            <script>
+
+                                $(document).ready(function () {
+                                    $('.input-daterange').datepicker({});
+
+
+                                    $('#id_district').on('change', function () {
+
+                                        var get_lab = $.ajax({
+                                            url: "/get_labs_ajax",
+                                            method: "GET",
+                                            data: {
+                                                district: this.value
+                                            },
+                                            dataType: "html"
+                                        });
+
+                                        get_lab.done(function (msg) {
+                                            console.log(msg);
+                                            $('#lab_list').html(msg);
+                                        });
+
+                                        var get_users = $.ajax({
+                                            url: "/get_users_ajax",
+                                            method: "GET",
+                                            data: {
+                                                lab: $('#id_lab').val(),
+                                                district:this.value
+                                            },
+                                            dataType: "html"
+                                        });
+
+                                        get_users.done(function (msg) {
+                                            console.log(msg);
+                                            $('#user_list').html(msg);
+                                        });
+                                    });
+
+                                    $('#id_lab').on('change', function () {
+                                        var get_users = $.ajax({
+                                            url: "/get_users_ajax",
+                                            method: "GET",
+                                            data: {
+                                                lab: this.value,
+                                                district:$('#id_district').val()
+                                            },
+                                            dataType: "html"
+                                        });
+
+                                        get_users.done(function (msg) {
+                                            console.log(msg);
+                                            $('#user_list').html(msg);
+                                        });
+                                    });
+                                });
+
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"
+                                                                    aria-hidden="true"></span></button>
+            </div>
+        </div>
+    </div>
+
+</form>

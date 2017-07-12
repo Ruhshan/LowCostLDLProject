@@ -1,0 +1,182 @@
+{% extends 'mainApp/base.html' %}
+{% block title %}{{ user }}'s Information{% endblock %}
+
+{% load static %}
+{% block extra_head %}
+    {% include 'mainApp/kendo_scripts.html' %}
+{% endblock %}
+{% block body %}
+    <div class="container-fluid display-screen">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3><strong>{{ user }}'s Information</strong></h3>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>User Name:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ user.username }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Email:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ user.email }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Designation:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ user.userprofile.designation }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Lab:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ user.userprofile.lab }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Created On:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ user.userprofile.created }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Last Update:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ user.userprofile.last_updated }}
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Number of Datapoints:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ user.datapoint_set.count }}
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                <a href="{% url 'mainapp:user-update' user.id %}" class="btn btn-primary">Edit</a>
+                <a class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid display-screen">
+
+        <table id="grid">
+
+            <thead>
+            <tr>
+                {% include 'mainApp/kendo_columns.html' %}
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for data in user.datapoint_set.all %}
+                <tr>
+                    {% include 'mainApp/kendo_body.html' %}
+
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    {% include 'mainApp/kendo_components.html' %}
+
+    </div>
+    <div class="display-print">
+        <h3><strong>{{ user }}'s Information</strong></h3>
+        <table>
+            <tbody>
+            <tr>
+                <td>User Name:</td>
+                <td>{{ user }}</td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Email:</strong>
+                </td>
+                <td>
+                    {{ user.email }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Designation:</strong>
+                </td>
+                <td>
+                    {{ user.userprofile.designation }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Lab:</strong>
+                </td>
+                <td>
+                    {{ user.userprofile.lab }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Created On:</strong>
+                </td>
+                <td>
+                    {{ user.userprofile.created }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Last Update:</strong>
+                </td>
+                <td>
+                    {{ user.userprofile.last_updated }}
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <strong>Number of Datapoints:</strong>
+                </td>
+                <td>
+                    {{ user.datapoint_set.count }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    <table class="table table-bordered">
+
+            <thead>
+            <tr>
+                {% include 'mainApp/kendo_columns.html' %}
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for data in user.datapoint_set.all %}
+                <tr>
+                    {% include 'mainApp/kendo_body_print.html' %}
+
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

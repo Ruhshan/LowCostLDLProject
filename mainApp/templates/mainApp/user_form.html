@@ -1,0 +1,44 @@
+{% extends 'mainApp/base.html' %}
+
+{% block title %}
+    {% if url_name == 'user-update' %}
+        Updating {{ form.initial.username }}
+    {% elif url_name == 'user-add' %}
+        Adding New User
+    {% endif %}
+{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+    {% if form.initial.username %}
+            <h3><b>Updating {{ form.initial.username }}</b></h3>
+            {% else %}
+            <h3><b>Adding New User</b></h3>
+
+        {% endif %}
+    <div class="row">
+        <div class="col-sm-12 col-md-7">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% include 'mainApp/form-template.html' %}
+                        <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-success">Submit</button>
+
+                            </div>
+
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+{% endblock %}

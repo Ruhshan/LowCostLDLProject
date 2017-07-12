@@ -1,0 +1,194 @@
+{% extends 'mainApp/base.html' %}
+{% block title %}{{ lab }}'s Information{% endblock %}
+{% load static %}
+{% block extra_head %}
+    {% include 'mainApp/kendo_scripts.html' %}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid display-screen">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3><strong>{{ lab }}'s Information</strong></h3>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Name:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ lab.name }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Address:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ lab.address }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Thana:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ lab.thana }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>District:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ lab.get_district_display }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Created On:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ lab.created }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Last Update:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ lab.last_updated }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Number of Users:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ lab.userprofile_set.count }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Number of Datapoints:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ lab.get_data_points_count }}
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                <a href="{% url 'mainapp:lab-update' lab.id %}" class="btn btn-primary">Edit</a>
+                <a class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid display-screen">
+
+        <table id="grid">
+
+            <thead>
+            <tr>
+                {% include 'mainApp/kendo_columns.html' %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for up in lab.userprofile_set.all %}
+                {% for data in up.user.datapoint_set.all %}
+                    <tr>
+                        {% include 'mainApp/kendo_body.html' %}
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+    {% include 'mainApp/kendo_components.html' %}
+    </div>
+    <div class="display-print">
+
+        <h3><strong>{{ lab }}'s Information</strong></h3>
+        <table>
+                <tr>
+                    <td>
+                        <strong>Name:</strong>
+                    </td>
+                    <td>
+                        {{ lab.name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Address:</strong>
+                    </td>
+                    <td>
+                        {{ lab.address }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Thana:</strong>
+                    </td>
+                    <td>
+                        {{ lab.thana }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>District:</strong>
+                    </td>
+                    <td>
+                        {{ lab.get_district_display }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Created On:</strong>
+                    </td>
+                    <td>
+                        {{ lab.created }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Last Update:</strong>
+                    </td>
+                    <td>
+                        {{ lab.last_updated }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Number of Users:</strong>
+                    </td>
+                    <td>
+                        {{ lab.userprofile_set.count }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Number of Datapoints:</strong>
+                    </td>
+                    <td>
+                        {{ lab.get_data_points_count }}
+                    </td>
+                </tr>
+    </table>
+    <table class="table table-bordered">
+
+            <thead>
+            <tr>
+                {% include 'mainApp/kendo_columns.html' %}
+            </tr>
+            </thead>
+            <tbody>
+
+                {% for data in lab.datapoint_set.all %}
+                    <tr>
+                        {% include 'mainApp/kendo_body_print.html' %}
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}

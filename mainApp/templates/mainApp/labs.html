@@ -1,0 +1,70 @@
+{% extends 'mainApp/base.html' %}
+{% block body %}
+    <div class="container-fluid display-screen">
+        <h3><strong>All Labs</strong></h3>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Lab Name</th>
+                <th>Location</th>
+                <th>Number of Users</th>
+                <th>Number of Datapoints</th>
+                <th>Options</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for lab in all_labs %}
+                <tr>
+                    <td><a href="{% url 'mainapp:lab-detail' lab.id %} ">{{ lab.name }}</a></td>
+                    {% if lab.thana %}
+                        <td>{{ lab.thana }}, {{ lab.get_district_display }}</td>
+                    {% else %}
+                        <td>{{ lab.get_district_display }}</td>
+                    {% endif %}
+                    <td>{{ lab.userprofile_set.count }}</td>
+                    <td> {{ lab.get_data_points_count }}
+                        </td>
+                    <td><a href="{% url 'mainapp:lab-update' lab.id %}" class="btn btn-primary">Edit</a> <a class="btn btn-danger">Delete</a></td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+    <div class="display-print">
+    <h3><strong>All Labs</strong></h3>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Lab Name</th>
+                <th>Location</th>
+                <th>Number of Users</th>
+                <th>Number of Datapoints</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for lab in all_labs %}
+                <tr>
+                    <td>{{ lab.name }}</td>
+                    {% if lab.thana %}
+                        <td>{{ lab.thana }}, {{ lab.get_district_display }}</td>
+                    {% else %}
+                        <td>{{ lab.get_district_display }}</td>
+                    {% endif %}
+                    <td>{{ lab.userprofile_set.count }}</td>
+                    <td> {{ lab.get_data_points_count }}
+                        </td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+{% endblock %}

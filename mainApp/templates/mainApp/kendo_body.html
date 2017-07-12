@@ -1,0 +1,11 @@
+<td><a href="{% url 'mainapp:data-detail' data.id %}">{{ data }}</a></td>
+<td>{{ data.patient_name }}</td>
+<td>{{ data.age }}</td>
+<td>{{ data.get_gender_display }}</td>
+<td>{{ data.total_cholesterol }}</td>
+<td>{{ data.high_density_lipid }}</td>
+<td>{{ data.low_density_lipid }}</td>
+<td>{{ data.tri_glycerides }}</td>
+<td>{{ data.date }}</td>
+<td><a href="{% url 'mainapp:user-detail' data.added_by.id %}">{{ data.added_by }}</a></td>
+<td><a href="{% url 'mainapp:lab-detail' data.lab.id %}">{{ data.lab }}</a></td>

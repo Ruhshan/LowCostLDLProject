@@ -1,0 +1,1 @@
+web: gunicorn IcddrbProject.wsgi --log-file -

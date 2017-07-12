@@ -1,0 +1,25 @@
+{% extends 'mainApp/base.html' %}
+{% block body %}
+<div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Test Name</th>
+                <th>QC Name</th>
+                <th>Lot</th>
+                <th>Acceptable Range</th>
+                
+
+            </tr>
+            </thead>
+            <tbody>
+            	{% for qc in all_qcs %}
+            	<tr>
+            		<td><a href="{% url 'mainapp:qc-detail' qc.id %} ">{{ qc.test_name }}</a></td>
+            		<td>{{ qc.qc_name}}</td>
+            		<td>{{ qc.lot }}</td>
+            		<td>{{ qc.acceptable_from}} to {{ qc.acceptable_to}}</td>
+            	</tr>
+            	{% endfor %}
+            </tbody>
+{% endblock body %}
