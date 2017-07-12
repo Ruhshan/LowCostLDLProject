@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'qc/add/$', data_views.QCAddView.as_view(), name="qc-add"),
     url(r'qc/(?P<pk>[0-9]+)/$', data_views.QCDetails.as_view(), name="qc-detail"),
 
+
     ## ajax urls
     url(r'^get_labs_ajax/', data_views.get_labs_ajax, name="get_labs_ajax"),
     url(r'^get_users_ajax/', data_views.get_users_ajax, name="get_users_ajax"),

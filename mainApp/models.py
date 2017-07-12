@@ -80,7 +80,6 @@ class DataPoint(models.Model):
         return str(self.data_category)[:2]+'_'+str(self.id)
 
 
-
 class QC(models.Model):
     test_name = models.CharField(max_length=50)
     qc_name = models.CharField(max_length=50)
@@ -115,6 +114,7 @@ class QCData(models.Model):
 
     def __str__(self):
         return str(self.test_name)+str(self.id)
+
 
 
 @receiver(post_save, sender=User)

@@ -54,14 +54,17 @@ class DataAddReView(LoginRequired, DataAdd, generic.CreateView):
             context['users'] = users
         return context
 
+
 class QCDataAddView(LoginRequired, generic.CreateView):
     model = QCData
     fields= ['test_name','level','value']
+
     def form_valid(self, form):
             data = form.save()
             data.added_by = self.request.user
             data.lab = self.request.user.userprofile.lab
             data.district = self.request.user.userprofile.lab.get_district_display()
+
             if data.value <= data.test_name.acceptable_to and data.value >= data.test_name.acceptable_from:
                 data.remarks = "Pass"
             else:
@@ -84,6 +87,7 @@ class QCDataAddView(LoginRequired, generic.CreateView):
             context['labs'] = labs
             context['users'] = users
         return context
+
 
 class QCAddView(LoginRequired, generic.CreateView):
     model=QC

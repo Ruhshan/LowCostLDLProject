@@ -92,6 +92,7 @@
                     </li>
                     {% if request.user.groups.all.0|stringformat:"s" == "admin" %}
                         <li class="dropdown">
+
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">QC
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -101,6 +102,7 @@
                             </ul>
                         </li>
                         <li class="dropdown">
+
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Users
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
