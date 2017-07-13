@@ -1,9 +1,82 @@
 {% extends 'mainApp/base.html' %}
+{% block title %}{{ qc }}'s Information{% endblock %}
+
 {% block body %}
-    <div class="container-fluid">
+    <div class="container-fluid display-screen">
         <div class="panel panel-default">
             <div class="panel-body">
-            {{qc}}
+                <h3><strong>{{ qc }}'s Information</strong></h3>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Test Name:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ qc.test_name }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>QC Name:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ qc.qc_name }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Lot:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ qc.lot }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Acceptable Range:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ qc.acceptable_from }} to {{ qc.acceptable_to }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Created On:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ qc.created }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Created By:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ qc.added_by }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Last Update:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ qc.last_updated }}
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <strong>Number of tests:</strong>
+                    </div>
+                    <div class="col-sm-5">
+                        {{ qc.qcdata_set.count }}
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                <a href="#" class="btn btn-primary">Edit</a>
+                <a class="btn btn-danger">Delete</a>
             </div>
         </div>
     </div>
