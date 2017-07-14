@@ -1,0 +1,44 @@
+{% extends 'mainApp/base.html' %}
+{% block title %}QC data{% endblock %}
+
+{% load static %}
+{% block extra_head %}
+    {% include 'mainApp/kendo_scripts.html' %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid display-screen">
+        {% if all_qc_data %}
+            {% if request.user.groups.all.0|stringformat:'s' == 'admin' %}
+                <table id="grid">
+
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        {% include 'mainApp/kendo_columns_qc.html' %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for qc_data in all_qc_data %}
+                        <tr>
+                        	<td><a href="{% url 'mainapp:data-qc-detail' qc_data.id %}">{{ qc_data }}</a></td>
+                        	<td>{{ qc_data.created }}</td>
+                        	<td>{{ qc_data.test_name }}</td>
+                        	<td>{{ qc_data.level }}</td>
+                        	<td>{{ qc_data.value }}</td>
+                        	<td>{{ qc_data.remarks }}</td>
+                        	<td>{{ qc_data.added_by }}</td>
+                        	<td>{{ qc_data.lab }}</td>
+                        	
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% include 'mainApp/kendo_components.html' %}
+            {% endif %}
+        {% endif %}
+        
+    </div>
+    
+{% endblock %}

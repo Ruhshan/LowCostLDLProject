@@ -70,8 +70,8 @@ class QCDataAddView(LoginRequired, generic.CreateView):
             else:
                 data.remarks = "Fail"
             data.save()
-            #return HttpResponseRedirect(reverse('mainapp:data-detail', kwargs={'pk': data.pk}))
-            return HttpResponse("OK")
+            return HttpResponseRedirect(reverse('mainapp:data-qc-detail', kwargs={'pk': data.pk}))
+            
 
     search_form = SearchForm
 
@@ -115,12 +115,13 @@ class QCAddView(LoginRequired, generic.CreateView):
             context['labs'] = labs
             context['users'] = users
         return context
-class QCsView(LoginRequired, generic.ListView):
-    template_name = 'mainApp/qcs.html'
-    context_object_name = 'all_qcs'
+class DataQCs(LoginRequired, generic.ListView):
+    template_name = 'mainApp/qcdata.html'
+    context_object_name = 'all_qc_data'
     search_form = SearchForm
+
     def get_queryset(self):
-        return QC.objects.all()
+        return QCData.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super(self.__class__, self).get_context_data(**kwargs)
@@ -134,10 +135,51 @@ class QCsView(LoginRequired, generic.ListView):
             context['labs'] = labs
             context['users'] = users
         return context
+
+class QCsView(LoginRequired, generic.ListView):
+    template_name = 'mainApp/qcs.html'
+    context_object_name = 'all_qcs'
+    search_form = SearchForm
+    def get_queryset(self):
+        return QC.objects.all()
+
+
+
+    def get_context_data(self, **kwargs):
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        district_list = list(dist_choices)
+        labs = Lab.objects.all().values('name')
+        users = User.objects.all()
+
+        if 'search_form' not in context:
+            context['search_form'] = self.search_form()
+            context['district_list'] = district_list
+            context['labs'] = labs
+            context['users'] = users
+        return context
+class DataQCDetails(LoginRequired, generic.DetailView):
+    model = QCData
+    template_name = 'mainApp/qc_data_detail.html'
+    search_form = SearchForm
+
+    def get_context_data(self, **kwargs):
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        district_list = list(dist_choices)
+        labs = Lab.objects.all().values('name')
+        users = User.objects.all()
+
+        if 'search_form' not in context:
+            context['search_form'] = self.search_form()
+            context['district_list'] = district_list
+            context['labs'] = labs
+            context['users'] = users
+        return context
+
 class QCDetails(LoginRequired, generic.DetailView):
     model = QC
     template_name = 'mainApp/qc_detail.html'
     search_form = SearchForm
+
 
     def get_context_data(self, **kwargs):
         context = super(self.__class__, self).get_context_data(**kwargs)
