@@ -175,6 +175,24 @@ class DataQCDetails(LoginRequired, generic.DetailView):
             context['users'] = users
         return context
 
+class DataQCUpdate(LoginRequired, generic.UpdateView):
+    model = QCData
+    fields = ['test_name', 'value', 'remarks',]
+    search_form = SearchForm
+
+    def get_context_data(self, **kwargs):
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        district_list = list(dist_choices)
+        labs = Lab.objects.all().values('name')
+        users = User.objects.all()
+
+        if 'search_form' not in context:
+            context['search_form'] = self.search_form()
+            context['district_list'] = district_list
+            context['labs'] = labs
+            context['users'] = users
+        return context
+
 class QCDetails(LoginRequired, generic.DetailView):
     model = QC
     template_name = 'mainApp/qc_detail.html'

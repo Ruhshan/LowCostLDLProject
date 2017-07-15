@@ -115,6 +115,9 @@ class QCData(models.Model):
     def __str__(self):
         return str(self.test_name)+str(self.id)
 
+    def get_absolute_url(self):
+        return reverse('mainapp:data-qc-detail', kwargs={'pk': self.pk})
+
 
 
 @receiver(post_save, sender=User)
