@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'data/qc/(?P<pk>[0-9]+)/$', data_views.DataQCDetails.as_view(), name="data-qc-detail"),
     url(r'data/qc/(?P<pk>[0-9]+)/update$', data_views.DataQCUpdate.as_view(), name="data-qc-update"),
     url(r'data/(?P<pk>[0-9]+)/$', data_views.DataDetails.as_view(), name="data-detail"),
+    url(r'data/(?P<pk>[0-9]+)/update/$', data_views.DataUpdate.as_view(), name="data-update"),
 
 
     url(r'qc/$', data_views.QCsView.as_view(), name="qcs"),

@@ -3,8 +3,8 @@
 {% block title %}
     {% if url_name == 'data-add-re' %}
         Adding Regular Data
-    {% elif url_name == 'data-add-qc' %}
-        Adding QC Data
+    {% elif url_name == 'data-update' %}
+        Updating Regular Data
     {% endif %}
 {% endblock %}
 
@@ -12,8 +12,8 @@
     <div class="container-fluid">
     {% if url_name == 'data-add-re' %}
         <h3><b>Adding Regular Data</b></h3>
-    {% elif url_name == 'data-add-qc' %}
-        <h3><b>Adding QC Data</b></h3>
+    {% elif url_name == 'data-update' %}
+        <h3><b>Updating: {{ object }}</b></h3>
     {% endif %}
     <div class="row">
         <div class="col-sm-12 col-md-7">
