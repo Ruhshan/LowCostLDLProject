@@ -1,8 +1,8 @@
 {% extends 'mainApp/base.html' %}
 
 {% block title %}
-    {% if url_name == 'data-add-re' %}
-        Adding Regular Data
+    {% if url_name == 'qc-add' %}
+        New QC
     {% elif url_name == 'data-add-qc' %}
         Adding QC Data
     {% endif %}
@@ -10,8 +10,8 @@
 
 {% block body %}
     <div class="container-fluid">
-    {% if url_name == 'data-add-re' %}
-        <h3><b>Adding Regular Data</b></h3>
+    {% if url_name == 'qc-add' %}
+        <h3><b>New QC</b></h3>
     {% elif url_name == 'data-add-qc' %}
         <h3><b>Adding QC Data</b></h3>
     {% endif %}

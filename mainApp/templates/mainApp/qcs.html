@@ -18,7 +18,7 @@
             		<td><a href="{% url 'mainapp:qc-detail' qc.id %} ">{{ qc.test_name }}</a></td>
             		<td>{{ qc.qc_name}}</td>
             		<td>{{ qc.lot }}</td>
-            		<td>{{ qc.acceptable_from}} to {{ qc.acceptable_to}}</td>
+            		<td>{{ qc.lower_range}} to {{ qc.upper_range}}</td>
             	</tr>
             	{% endfor %}
             </tbody>

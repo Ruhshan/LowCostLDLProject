@@ -65,7 +65,7 @@ class QCDataAddView(LoginRequired, generic.CreateView):
             data.lab = self.request.user.userprofile.lab
             data.district = self.request.user.userprofile.lab.get_district_display()
 
-            if data.value <= data.test_name.acceptable_to and data.value >= data.test_name.acceptable_from:
+            if data.value <= data.test_name.lower_range and data.value >= data.test_name.upper_range:
                 data.remarks = "Pass"
             else:
                 data.remarks = "Fail"
@@ -91,7 +91,7 @@ class QCDataAddView(LoginRequired, generic.CreateView):
 
 class QCAddView(LoginRequired, generic.CreateView):
     model=QC
-    fields = ['test_name', 'qc_name','lot','acceptable_from','acceptable_to']
+    fields = ['test_name', 'qc_name','lot','lower_range','upper_range']
     def form_valid(self, form):
             data = form.save()
             data.added_by = self.request.user
