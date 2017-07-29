@@ -19,6 +19,7 @@ from django.contrib.postgres.search import SearchVector, SearchQuery
 from watson import search as watson
 from dateutil import parser
 
+
 class LoginRequired(LoginRequiredMixin):
     login_url = '/login/'
 class DataAdd:

@@ -8,6 +8,22 @@
     {% endif %}
 {% endblock %}
 
+{% block extra_head %}
+    <style>
+        .out_of_range{
+            color: red;
+
+
+        }
+
+        .within_range{
+            color: limegreen;
+
+
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
     <div class="container-fluid">
     <h2>
@@ -43,4 +59,46 @@
 
     </div>
     </div>
+    <script>
+    $(document).ready(function () {
+        lower_range=0;
+        upper_range=0;
+        $("#id_test_name").change(function () {
+            $.get("/api/qc/"+$(this).val()+"/?format=json", function (data, status) {
+            lower_range = parseInt(data.lower_range);
+            upper_range = parseInt(data.upper_range);
+
+            var message = jQuery.validator.format(`<span class="help-block">Acceptable range {0} to {1}</span>`,
+                lower_range, upper_range);
+            $(".help-block").remove();
+            $('#id_value').parent().append(message);
+            });
+        });
+
+        $("#id_value").keyup(function () {
+            val=parseInt($(this).val());
+            if((val >= lower_range) && (val <= upper_range)){
+                var message = jQuery.validator.format(`<span class="help-block">Within Acceptable range {0} to {1}</span>`,
+                lower_range, upper_range);
+                $(".help-block").remove();
+                $('#id_value').parent().append(message);
+
+                $(".help-block").removeClass("out_of_range");
+                $(".help-block").addClass("within_range");
+            }
+            else{
+
+                var message = jQuery.validator.format(`<span class="help-block">Outside Acceptable range {0} to {1}</span>`,
+                lower_range, upper_range);
+                $(".help-block").remove();
+                $('#id_value').parent().append(message);
+                $(".help-block").removeClass("within_range");
+                $(".help-block").addClass("out_of_range");
+            }
+
+
+
+        });
+    });
+    </script>
 {% endblock %}

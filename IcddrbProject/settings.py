@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'mainApp.apps.MainappConfig',
     'widget_tweaks',
     'six',
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     'psycopg2',
     'django.contrib.postgres',
     'watson',
+
 
 
 ]
