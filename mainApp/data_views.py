@@ -26,7 +26,7 @@ class DataAdd:
     model = DataPoint
     fields = ['patient_id', 'patient_name', 'age', 'gender', 'total_cholesterol', 'high_density_lipid',
               'low_density_lipid',
-              'tri_glycerides']
+              'tri_glycerides','note']
 
 
 class DataAddReView(LoginRequired, DataAdd, generic.CreateView):

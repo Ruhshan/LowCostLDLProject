@@ -61,7 +61,7 @@ class DataPoint(models.Model):
     patient_id = models.CharField(max_length=50)
     patient_name = models.CharField(max_length=100)
     age = models.IntegerField()
-    gender = models.CharField(max_length=2, choices=sex_choices)
+    gender = models.CharField(max_length=2, choices=sex_choices, verbose_name='Sex')
     date = models.DateField(auto_now_add=True)
     time = models.TimeField(auto_now_add=True)
     added_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
@@ -72,6 +72,7 @@ class DataPoint(models.Model):
     tri_glycerides = models.IntegerField()
     lab = models.ForeignKey(Lab, on_delete=models.CASCADE, null=True, blank=True)
     district = models.CharField(max_length=50,null=True, blank=True)
+    note = models.TextField( null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse('mainapp:data-detail', kwargs={'pk': self.pk})
