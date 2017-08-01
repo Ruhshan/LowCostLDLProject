@@ -32,10 +32,25 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-2">
-                        <strong>Acceptable Range:</strong>
+                        <strong>Acceptable Ranges:</strong>
                     </div>
                     <div class="col-sm-5">
-                        {{ qc.acceptable_from }} to {{ qc.acceptable_to }}
+                        <table class="table table-bordered table-condensed" style="width: 40%">
+                            <tr>
+                                <th>Level 1:</th>
+                                <td>{{ qc.level_1_lower_range }} to {{ qc.level_1_upper_range }}</td>
+                            </tr>
+                            <tr>
+                                <th>Level 2:</th>
+                                <td>{{ qc.level_2_lower_range }} to {{ qc.level_2_upper_range }}</td>
+                            </tr>
+                            <tr>
+                                <th>Level 3:</th>
+                                <td>{{ qc.level_3_lower_range }} to {{ qc.level_3_upper_range }}</td>
+                            </tr>
+
+                        </table>
+
                     </div>
                 </div>
                 <div class="row">

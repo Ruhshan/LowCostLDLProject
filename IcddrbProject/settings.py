@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'psycopg2',
     'django.contrib.postgres',
     'watson',
+    'crispy_forms'
 
 
 
@@ -173,3 +174,4 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 #STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

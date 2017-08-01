@@ -84,8 +84,14 @@ class QC(models.Model):
     test_name = models.CharField(max_length=50)
     qc_name = models.CharField(max_length=50)
     lot = models.CharField(max_length=50)
-    lower_range = models.IntegerField()
-    upper_range = models.IntegerField()
+    level_1_lower_range = models.IntegerField()
+    level_2_lower_range = models.IntegerField()
+    level_3_lower_range = models.IntegerField()
+
+    level_1_upper_range = models.IntegerField()
+    level_2_upper_range = models.IntegerField()
+    level_3_upper_range = models.IntegerField()
+
     added_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True, blank=True)
     lab = models.ForeignKey(Lab, on_delete=models.CASCADE, null=True, blank=True)
     district = models.CharField(max_length=50,null=True, blank=True)

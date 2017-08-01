@@ -63,15 +63,44 @@
     $(document).ready(function () {
         lower_range=0;
         upper_range=0;
-        $("#id_test_name").change(function () {
-            $.get("/api/qc/"+$(this).val()+"/?format=json", function (data, status) {
-            lower_range = parseInt(data.lower_range);
-            upper_range = parseInt(data.upper_range);
+        $("#id_level").change(function () {
+            var message_hide=0;
+            $.get("/api/qc/"+'5'+"/?format=json", function (data, status) {
+                var level = $("#id_level").val();
+
+                if(level == 1){
+
+                    lower_range = parseInt(data.level_1_lower_range);
+                    upper_range = parseInt(data.level_1_upper_range);
+
+                }
+                else if(level == 2){
+
+                    lower_range = parseInt(data.level_2_lower_range);
+                    upper_range = parseInt(data.level_2_upper_range);
+
+                }
+                else if(level == 3){
+
+                    lower_range = parseInt(data.level_1_lower_range);
+                    upper_range = parseInt(data.level_1_upper_range);
+
+                }
+
+                else{
+                    lower_range = 0;
+                    upper_range = 0;
+                    message_hide = 1;
+                    $(".help-block").remove();
+                }
+
+
 
             var message = jQuery.validator.format(`<span class="help-block">Acceptable range {0} to {1}</span>`,
                 lower_range, upper_range);
             $(".help-block").remove();
             $('#id_value').parent().append(message);
+
             });
         });
 

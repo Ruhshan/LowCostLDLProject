@@ -66,10 +66,23 @@ class QCDataAddView(LoginRequired, generic.CreateView):
             data.lab = self.request.user.userprofile.lab
             data.district = self.request.user.userprofile.lab.get_district_display()
 
-            if data.value <= data.test_name.lower_range and data.value >= data.test_name.upper_range:
-                data.remarks = "Pass"
+
+
+            if int(data.level) == 1:
+                if data.value >= data.test_name.level_1_lower_range and data.value <= data.test_name.level_1_upper_range:
+                    data.remarks = "Pass"
+                else:
+                    data.remarks = "Fail"
+            elif int(data.level) == 2:
+                if data.value >= data.test_name.level_2_lower_range and data.value <= data.test_name.level_2_upper_range:
+                    data.remarks = "Pass"
+                else:
+                    data.remarks = "Fail"
             else:
-                data.remarks = "Fail"
+                if data.value >= data.test_name.level_3_lower_range and data.value <= data.test_name.level_3_upper_range:
+                    data.remarks = "Pass"
+                else:
+                    data.remarks = "Fail"
             data.save()
             return HttpResponseRedirect(reverse('mainapp:data-qc-detail', kwargs={'pk': data.pk}))
             
@@ -92,7 +105,8 @@ class QCDataAddView(LoginRequired, generic.CreateView):
 
 class QCAddView(LoginRequired, generic.CreateView):
     model=QC
-    fields = ['test_name', 'qc_name','lot','lower_range','upper_range']
+    #fields = ['test_name', 'qc_name','lot','lower_range','upper_range']
+    form_class = QCForm
     def form_valid(self, form):
             data = form.save()
             data.added_by = self.request.user
@@ -116,6 +130,11 @@ class QCAddView(LoginRequired, generic.CreateView):
             context['labs'] = labs
             context['users'] = users
         return context
+
+    def get_form_kwargs(self):
+        ctx = super(QCAddView, self).get_form_kwargs()
+        ctx["request"] = self.request
+        return ctx
 class DataQCs(LoginRequired, generic.ListView):
     template_name = 'mainApp/qcdata.html'
     context_object_name = 'all_qc_data'
@@ -178,7 +197,7 @@ class DataQCDetails(LoginRequired, generic.DetailView):
 
 class DataQCUpdate(LoginRequired, generic.UpdateView):
     model = QCData
-    fields = ['test_name', 'value', 'remarks',]
+    fields = ['test_name', 'value', 'level','remarks',]
     search_form = SearchForm
 
     def get_context_data(self, **kwargs):
