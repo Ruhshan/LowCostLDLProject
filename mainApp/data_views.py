@@ -135,6 +135,40 @@ class QCAddView(LoginRequired, generic.CreateView):
         ctx = super(QCAddView, self).get_form_kwargs()
         ctx["request"] = self.request
         return ctx
+
+
+class QCUpdateView(LoginRequired, generic.UpdateView):
+    model = QC
+    # fields = ['test_name', 'qc_name','lot','lower_range','upper_range']
+    form_class = QCForm
+
+    def form_valid(self, form):
+        data = form.save()
+        data.added_by = self.request.user
+        data.lab = self.request.user.userprofile.lab
+        data.district = self.request.user.userprofile.lab.get_district_display()
+        data.save()
+        return HttpResponseRedirect(reverse('mainapp:qc-detail', kwargs={'pk': data.pk}))
+
+    search_form = SearchForm
+
+    def get_context_data(self, **kwargs):
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        district_list = list(dist_choices)
+        labs = Lab.objects.all().values('name')
+        users = User.objects.all()
+
+        if 'search_form' not in context:
+            context['search_form'] = self.search_form()
+            context['district_list'] = district_list
+            context['labs'] = labs
+            context['users'] = users
+        return context
+
+    def get_form_kwargs(self):
+        ctx = super(QCUpdateView, self).get_form_kwargs()
+        ctx["request"] = self.request
+        return ctx
 class DataQCs(LoginRequired, generic.ListView):
     template_name = 'mainApp/qcdata.html'
     context_object_name = 'all_qc_data'
@@ -278,7 +312,7 @@ class DataDetails(LoginRequired, generic.DetailView):
 class DataUpdate(LoginRequired, generic.UpdateView):
     model = DataPoint
     fields = ['total_cholesterol','high_density_lipid',
-            'low_density_lipid', 'tri_glycerides']
+            'low_density_lipid', 'tri_glycerides', 'note']
     search_form = SearchForm
 
     def get_context_data(self, **kwargs):

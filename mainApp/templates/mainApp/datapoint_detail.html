@@ -85,6 +85,17 @@
                         {{ datapoint.lab }} {{ datapoint.lab.thana }} {{ datapoint.lab.get_district_display }}
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>Note:</strong>
+
+                    </div>
+                    <div class="col-sm-5">
+                        {{ datapoint.note }}
+
+                    </div>
+
+                </div>
 
             
             <table class="table table-bordered">
@@ -152,8 +163,12 @@
                     </td>
                 </tr>
 
+
+
+
                 </tbody>
             </table>
+
             </div>
             <div class="panel-footer">
                 <a href="{% url 'mainapp:data-update' datapoint.id %}" class="btn btn-primary">Edit</a>
