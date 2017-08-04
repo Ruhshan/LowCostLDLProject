@@ -65,7 +65,7 @@
         upper_range=0;
         $("#id_level").change(function () {
             var message_hide=0;
-            $.get("/api/qc/"+'5'+"/?format=json", function (data, status) {
+            $.get("/api/qc/"+$('#id_test_name').val()+"/?format=json", function (data, status) {
                 var level = $("#id_level").val();
 
                 if(level == 1){
