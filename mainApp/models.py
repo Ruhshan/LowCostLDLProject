@@ -110,6 +110,7 @@ class QCData(models.Model):
                     ('2','2'),
                     ('3','3'))
     test_name = models.ForeignKey(QC, on_delete=models.CASCADE)
+    qc_name = models.CharField(max_length=50, default='')
     level = models.CharField(max_length=10, choices=level_choices)
     value = models.IntegerField()
     remarks = models.CharField(max_length=50)
@@ -118,6 +119,7 @@ class QCData(models.Model):
     district = models.CharField(max_length=50,null=True, blank=True)
     created = models.DateField(auto_now_add=True)
     last_updated = models.DateField(auto_now=True)
+    note = models.TextField()
 
     def __str__(self):
         return str(self.test_name)+str(self.id)

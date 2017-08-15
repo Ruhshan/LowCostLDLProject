@@ -37,7 +37,7 @@
         <div class="col-sm-12 col-md-7">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+                    <form class="form-horizontal" {% if url_name == 'data-qc-update' %} onsubmit="change_readonly()" {% endif %} action="" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         {% include 'mainApp/form-template.html' %}
                         <div class="form-group">
@@ -59,10 +59,75 @@
 
     </div>
     </div>
+
+
     <script>
+    function change_readonly() {
+                console.log("crd called");
+                $("#id_test_name").prop("disabled", false);
+                $("#id_qc_name").prop("disabled", false);
+                $("#id_level").prop("disabled", false);
+                $("#id_remarks").prop("disabled", false);
+                $("#id_note").prop("disabled", false);
+
+                return true;
+    }
     $(document).ready(function () {
         lower_range=0;
         upper_range=0;
+
+        {% if url_name == 'data-qc-update' %}
+
+
+            $("#id_test_name").prop("disabled", true);
+            $("#id_qc_name").prop("disabled", true);
+            $("#id_level").prop("disabled", true);
+            $("#id_remarks").prop("disabled", true);
+            $("#id_note").prop("disabled", true);
+
+            var message_hide=0;
+            $.get("/api/qc/"+$('#id_test_name').val()+"/?format=json", function (data, status) {
+                var level = $("#id_level").val();
+
+                if(level == 1){
+
+                    lower_range = parseInt(data.level_1_lower_range);
+                    upper_range = parseInt(data.level_1_upper_range);
+
+                }
+                else if(level == 2){
+
+                    lower_range = parseInt(data.level_2_lower_range);
+                    upper_range = parseInt(data.level_2_upper_range);
+
+                }
+                else if(level == 3){
+
+                    lower_range = parseInt(data.level_3_lower_range);
+                    upper_range = parseInt(data.level_3_upper_range);
+
+                }
+
+                else{
+                    lower_range = 0;
+                    upper_range = 0;
+                    message_hide = 1;
+                    $(".help-block").remove();
+                }
+
+
+
+            var message = jQuery.validator.format(`<span class="help-block">Acceptable range {0} to {1}</span>`,
+                lower_range, upper_range);
+            $(".help-block").remove();
+            $('#id_value').parent().append(message);
+
+            });
+        {% endif %}
+
+        {% if url_name == 'data-add-qc' %}
+
+
         $("#id_level").change(function () {
             var message_hide=0;
             $.get("/api/qc/"+$('#id_test_name').val()+"/?format=json", function (data, status) {
@@ -82,8 +147,8 @@
                 }
                 else if(level == 3){
 
-                    lower_range = parseInt(data.level_1_lower_range);
-                    upper_range = parseInt(data.level_1_upper_range);
+                    lower_range = parseInt(data.level_3_lower_range);
+                    upper_range = parseInt(data.level_3_upper_range);
 
                 }
 
@@ -103,6 +168,8 @@
 
             });
         });
+        {% endif %}
+
 
         $("#id_value").keyup(function () {
             val=parseInt($(this).val());
@@ -128,6 +195,7 @@
 
 
         });
+
     });
     </script>
 {% endblock %}

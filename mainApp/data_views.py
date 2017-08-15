@@ -58,7 +58,7 @@ class DataAddReView(LoginRequired, DataAdd, generic.CreateView):
 
 class QCDataAddView(LoginRequired, generic.CreateView):
     model = QCData
-    fields= ['test_name','level','value']
+    fields= ['test_name','qc_name','level','value','note']
 
     def form_valid(self, form):
             data = form.save()
@@ -231,7 +231,30 @@ class DataQCDetails(LoginRequired, generic.DetailView):
 
 class DataQCUpdate(LoginRequired, generic.UpdateView):
     model = QCData
-    fields = ['test_name', 'value', 'level','remarks',]
+    fields = ['test_name', 'qc_name','value', 'level','remarks','note',]
+    def form_valid(self, form):
+            data = form.save()
+            data.added_by = self.request.user
+            data.lab = self.request.user.userprofile.lab
+            data.district = self.request.user.userprofile.lab.get_district_display()
+
+            if int(data.level) == 1:
+                if data.value >= data.test_name.level_1_lower_range and data.value <= data.test_name.level_1_upper_range:
+                    data.remarks = "Pass"
+                else:
+                    data.remarks = "Fail"
+            elif int(data.level) == 2:
+                if data.value >= data.test_name.level_2_lower_range and data.value <= data.test_name.level_2_upper_range:
+                    data.remarks = "Pass"
+                else:
+                    data.remarks = "Fail"
+            else:
+                if data.value >= data.test_name.level_3_lower_range and data.value <= data.test_name.level_3_upper_range:
+                    data.remarks = "Pass"
+                else:
+                    data.remarks = "Fail"
+            data.save()
+            return HttpResponseRedirect(reverse('mainapp:data-qc-detail', kwargs={'pk': data.pk}))
     search_form = SearchForm
 
     def get_context_data(self, **kwargs):
