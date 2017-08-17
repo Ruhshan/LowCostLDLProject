@@ -92,6 +92,7 @@
                     },
 
                 excelExport: function (e) {
+                    console.log("Excel called");
                     var rows = e.workbook.sheets[0].rows;
 
                     for (var ri = 0; ri < rows.length; ri++) {
