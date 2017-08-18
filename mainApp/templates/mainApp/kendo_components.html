@@ -92,30 +92,30 @@
                     },
 
                 excelExport: function (e) {
-                    console.log("Excel called");
+
                     var rows = e.workbook.sheets[0].rows;
-                    console.log(rows)
+
 
                     for (var ri = 0; ri < rows.length; ri++) {
                         var row = rows[ri];
-                        console.log("outer loop");
+
+
 
                         for (var ci = 0; ci < row.cells.length; ci++) {
-                            console.log("inner loop");
-                            var cell = row.cells[ci];
-                            if (cell.value) {
-                                // Use jQuery.fn.text to remove the HTML and get only the text
-                                if ($(cell.value).text()) {
-                                    cell.value = $(cell.value).text();
-                                }
-                                else {
-                                    cell.value = cell.value;
-                                }
 
-                                // Set the alignment
-                                cell.hAlign = "right";
+                            var cell = row.cells[ci];
+
+                            var val_str = cell.value.toString();
+
+                            if(val_str.indexOf('</') != -1){
+                                var content_holder = val_str.replace(/<(?:.|\n)*?>/gm, '');
+                                cell.value = content_holder;
                             }
+                            console.log(cell);
+
+
                         }
+
                     }
                 },
 
